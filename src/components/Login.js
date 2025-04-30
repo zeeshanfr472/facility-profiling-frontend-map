@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { navigateTo } from '../utils/BasePath';
+import * as api from '../api';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -16,10 +16,13 @@ const Login = () => {
   const navigate = useNavigate();
   
   useEffect(() => {
-    // If already authenticated, use React Router for local navigation
+    // If already authenticated, redirect to inspections page
     if (isAuthenticated) {
       navigate('/inspections');
     }
+    
+    // Clear any previous errors on component mount
+    setError('');
   }, [isAuthenticated, navigate]);
 
   const handleChange = (e) => {
@@ -37,6 +40,7 @@ const Login = () => {
       formBody.append('username', formData.username);
       formBody.append('password', formData.password);
       
+      // Use direct fetch to avoid potential issues with axios
       const response = await fetch('https://facilityprofilingupdated.onrender.com/login', {
         method: 'POST',
         headers: {
@@ -48,18 +52,21 @@ const Login = () => {
       const data = await response.json();
       
       if (response.ok) {
+        console.log('Login successful, token received');
+        
         // Store the token and username
         localStorage.setItem('token', data.access_token);
         localStorage.setItem('username', formData.username);
         
-        // Use our utility function for GitHub Pages compatible navigation
-        navigateTo('/inspections');
+        // Force a reload to ensure the app recognizes the new auth state
+        window.location.href = window.location.origin + window.location.pathname + '#/inspections';
+        window.location.reload();
       } else {
         setError(data.detail || 'Login failed. Please check your credentials.');
       }
     } catch (err) {
       console.error('Login error:', err);
-      setError('An unexpected error occurred. Please try again.');
+      setError('Login failed. Please check your credentials or try again later.');
     } finally {
       setIsSubmitting(false);
     }

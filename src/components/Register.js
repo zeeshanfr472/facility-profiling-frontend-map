@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { navigateTo } from '../utils/BasePath';
+import * as api from '../api';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -42,31 +42,22 @@ const Register = () => {
     setIsSubmitting(true);
     
     try {
-      const response = await fetch('https://facilityprofilingupdated.onrender.com/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          username: formData.username,
-          password: formData.password
-        })
+      // Use the API client for registration
+      await api.register({
+        username: formData.username,
+        password: formData.password
       });
       
-      const data = await response.json();
-      
-      if (response.ok) {
-        setSuccess('Registration successful! You can now login.');
-        setTimeout(() => {
-          // Use the utility function for GitHub Pages navigation
-          navigateTo('/login');
-        }, 2000);
-      } else {
-        setError(data.detail || 'Registration failed. Please try again.');
-      }
+      setSuccess('Registration successful! You can now login.');
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
     } catch (err) {
       console.error('Registration error:', err);
-      setError('An unexpected error occurred. Please try again.');
+      setError(
+        err.response?.data?.detail || 
+        'Registration failed. Please try again.'
+      );
     } finally {
       setIsSubmitting(false);
     }

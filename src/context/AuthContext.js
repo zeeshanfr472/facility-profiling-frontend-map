@@ -1,6 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { navigateTo } from '../utils/BasePath';
 
 export const AuthContext = createContext(null);
 
@@ -25,8 +24,9 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setIsAuthenticated(false);
     
-    // Use the utility function for GitHub Pages navigation
-    navigateTo('/login');
+    // Force a page reload to ensure clean state after logout
+    window.location.href = window.location.origin + window.location.pathname + '#/login';
+    window.location.reload();
   };
 
   const value = {
