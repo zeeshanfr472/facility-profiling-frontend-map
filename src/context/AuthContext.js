@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { navigateTo } from '../utils/BasePath';
 
 export const AuthContext = createContext(null);
 
@@ -24,9 +25,8 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setIsAuthenticated(false);
     
-    // Update for HashRouter - change hash then reload
-    window.location.hash = '/login';
-    window.location.reload();
+    // Use helper function for navigation
+    navigateTo('/login');
   };
 
   const value = {

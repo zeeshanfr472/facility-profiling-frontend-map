@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { navigateTo } from '../utils/BasePath';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -57,8 +58,8 @@ const Register = () => {
       if (response.ok) {
         setSuccess('Registration successful! You can now login.');
         setTimeout(() => {
-          // Use hash navigation for GitHub Pages
-          window.location.hash = '/login';
+          // Use helper function for navigation
+          navigateTo('/login');
         }, 2000);
       } else {
         setError(data.detail || 'Registration failed. Please try again.');

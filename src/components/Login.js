@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { navigateTo } from '../utils/BasePath';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -51,10 +52,8 @@ const Login = () => {
         localStorage.setItem('token', data.access_token);
         localStorage.setItem('username', formData.username);
         
-        // Force a reload but stay on the app and navigate to inspections
-        // Using HashRouter format
-        window.location.hash = '/inspections';
-        window.location.reload();
+        // Use helper function for navigation
+        navigateTo('/inspections');
       } else {
         setError(data.detail || 'Login failed. Please check your credentials.');
       }
