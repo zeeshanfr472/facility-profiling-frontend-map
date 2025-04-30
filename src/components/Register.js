@@ -57,7 +57,8 @@ const Register = () => {
       if (response.ok) {
         setSuccess('Registration successful! You can now login.');
         setTimeout(() => {
-          navigate('/login');
+          // Use hash navigation for GitHub Pages
+          window.location.hash = '/login';
         }, 2000);
       } else {
         setError(data.detail || 'Registration failed. Please try again.');

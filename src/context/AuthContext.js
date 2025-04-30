@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect } from 'react';
-// If you're using useNavigate, you can keep it for other navigations
 import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext(null);
@@ -25,8 +24,9 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setIsAuthenticated(false);
     
-    // Use window.location for reliable navigation in hash router
-    window.location.href = "/#/login";
+    // Update for HashRouter - change hash then reload
+    window.location.hash = '/login';
+    window.location.reload();
   };
 
   const value = {

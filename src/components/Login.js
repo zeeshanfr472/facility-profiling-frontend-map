@@ -51,8 +51,10 @@ const Login = () => {
         localStorage.setItem('token', data.access_token);
         localStorage.setItem('username', formData.username);
         
-        // Reload the page to update authentication state
-        window.location.href = '/inspections';
+        // Force a reload but stay on the app and navigate to inspections
+        // Using HashRouter format
+        window.location.hash = '/inspections';
+        window.location.reload();
       } else {
         setError(data.detail || 'Login failed. Please check your credentials.');
       }
