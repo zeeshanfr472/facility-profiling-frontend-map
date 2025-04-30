@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+// If you're using useNavigate, you can keep it for other navigations
 import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext(null);
@@ -9,7 +10,6 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Check if user is already logged in
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -24,7 +24,9 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('username');
     setUser(null);
     setIsAuthenticated(false);
-    navigate('/login');
+    
+    // Use window.location for reliable navigation in hash router
+    window.location.href = "/#/login";
   };
 
   const value = {
