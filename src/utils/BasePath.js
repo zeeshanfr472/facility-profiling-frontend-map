@@ -5,27 +5,22 @@
  * and in GitHub Pages deployment.
  */
 
-// Check if we're running on GitHub Pages
-const isGitHubPages = () => {
-  return window.location.hostname === 'zeeshanfr472.github.io';
+// Get the base path for GitHub Pages
+const getBasePath = () => {
+  return '/facility-profiling-frontend-map';
 };
 
-// Get the base URL for navigation
-const getBaseUrl = () => {
-  if (isGitHubPages()) {
-    return '/facility-profiling-frontend-map';
-  }
-  return '';
-};
-
-// Navigate to a path, considering GitHub Pages
+// Navigate with proper hash routing for GitHub Pages
 const navigateTo = (path) => {
-  // For HashRouter, simply update the hash
-  window.location.hash = path;
+  // Get the full URL for GitHub Pages deployment
+  const baseUrl = 'https://zeeshanfr472.github.io';
+  const repoPath = '/facility-profiling-frontend-map';
   
-  // Force a reload to make sure everything gets updated
-  // This is a fallback to ensure the app state is refreshed
-  window.location.reload();
+  // Create the proper URL with hash routing
+  const fullUrl = `${baseUrl}${repoPath}/#${path}`;
+  
+  // Navigate to the URL
+  window.location.href = fullUrl;
 };
 
-export { getBaseUrl, navigateTo, isGitHubPages };
+export { getBasePath, navigateTo };

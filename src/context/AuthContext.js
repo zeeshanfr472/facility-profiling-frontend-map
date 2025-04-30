@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setIsAuthenticated(false);
     
-    // Use helper function for navigation
+    // Use the utility function for GitHub Pages navigation
     navigateTo('/login');
   };
 

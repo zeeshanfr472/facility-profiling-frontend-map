@@ -16,7 +16,7 @@ const Login = () => {
   const navigate = useNavigate();
   
   useEffect(() => {
-    // If already authenticated, redirect to inspections page
+    // If already authenticated, use React Router for local navigation
     if (isAuthenticated) {
       navigate('/inspections');
     }
@@ -32,7 +32,7 @@ const Login = () => {
     setIsSubmitting(true);
     
     try {
-      // Create form data for login - using the same approach as the test file
+      // Create form data for login
       const formBody = new URLSearchParams();
       formBody.append('username', formData.username);
       formBody.append('password', formData.password);
@@ -52,7 +52,7 @@ const Login = () => {
         localStorage.setItem('token', data.access_token);
         localStorage.setItem('username', formData.username);
         
-        // Use helper function for navigation
+        // Use our utility function for GitHub Pages compatible navigation
         navigateTo('/inspections');
       } else {
         setError(data.detail || 'Login failed. Please check your credentials.');

@@ -58,7 +58,7 @@ const Register = () => {
       if (response.ok) {
         setSuccess('Registration successful! You can now login.');
         setTimeout(() => {
-          // Use helper function for navigation
+          // Use the utility function for GitHub Pages navigation
           navigateTo('/login');
         }, 2000);
       } else {
